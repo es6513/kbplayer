@@ -1,31 +1,70 @@
-import { GET_FETCHED_FEED, SET_SELECTED_EPISODE } from "./mutationTypes";
+import * as PodcastMutations from "./mutationTypes";
 import { apiGetXmlFile } from "@/api/podcast";
+import Parser from "rss-parser";
+const parse = new Parser();
+import * as SystemMutation from "@/store/modules/system/mutationTypes";
+import { v4 as uuid4 } from "uuid";
+const moduleName = "PODCAST";
 
 const state = {
-  feed: null,
+  feedData: null,
   selectedEpisode: null,
 };
 
 const actions = {
-  async getPodcastFeed({ commit }, payload) {
+  async fetchAndParsePodcastFeed({ commit }, payload) {
     const { endPoint } = payload;
-    const feed = await apiGetXmlFile({ endPoint });
-    commit(GET_FETCHED_FEED, { feed });
+    const randomId = uuid4();
+    commit(
+      `system/${SystemMutation.ADD_LOADING}`,
+      {
+        name: moduleName,
+        id: randomId,
+      },
+      { root: true }
+    );
+    const xmlResponse = await apiGetXmlFile({ endPoint });
+    const parsedXmlData = await parse.parseString(xmlResponse.data);
+    commit(PodcastMutations.GET_FETCHED_FEED, { feedData: parsedXmlData });
+    commit(
+      `system/${SystemMutation.REMOVE_LOADING}`,
+      {
+        name: moduleName,
+        id: randomId,
+      },
+      { root: true }
+    );
+  },
+  selectEpisode({ commit, state }, payload) {
+    const { guid } = payload;
+    const selectedEpisode = state.feed.items.find(
+      (episode) => episode.guid === guid
+    );
+    commit(PodcastMutations.SET_SELECTED_EPISODE, { selectedEpisode });
   },
 };
 
 const mutations = {
-  [GET_FETCHED_FEED](state, payload) {
-    const { feed } = payload;
-    state.feed = feed;
+  [PodcastMutations.GET_FETCHED_FEED](state, payload) {
+    const { feedData } = payload;
+    state.feedData = feedData;
   },
-  [SET_SELECTED_EPISODE](state, payload) {
+  [PodcastMutations.SET_SELECTED_EPISODE](state, payload) {
     const { selectedEpisode } = payload;
     state.selectedEpisode = selectedEpisode;
   },
 };
 
-const getters = {};
+const getters = {
+  episodes: (state) => state.feedData.items,
+  isLoading: (state, getters, rootState) => {
+    const { loadingQueue } = rootState.system;
+    console.log(loadingQueue);
+    const isLoading = loadingQueue.some((queue) => queue.name === moduleName);
+    console.log("1234");
+    return isLoading;
+  },
+};
 
 export default {
   namespaced: true,
