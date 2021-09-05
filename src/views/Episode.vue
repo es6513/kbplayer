@@ -5,7 +5,7 @@
         :imageUrl="selectedEpisode.itunes.image"
         :title="selectedEpisode.title"
       />
-      <div ref="clickButton" class="episode-play" @click="togglePlayPodcast">
+      <div class="episode-play" @click="togglePlayPodcast">
         {{ isPlaying ? "Pause" : "Play" }}
       </div>
     </div>
@@ -14,16 +14,15 @@
       <div class="episode-body-desc">{{ selectedEpisode.content }}</div>
     </div>
     <div class="episode-player">
-      <audio
-        :style="{ width: '100%' }"
-        ref="player"
-        controls
-        preload="auto"
-        :src="selectedEpisode.enclosure.url"
-        @canplay="handleCanplay"
-        @pause="handlePause"
-        @play="handlePlay"
-        @ended="handlePlayEnd"
+      <Player
+        ref="playerComponent"
+        :audioSource="selectedEpisode.enclosure.url"
+        :eventCallback="{
+          handleCanplay,
+          handlePause,
+          handlePlay,
+          handlePlayEnd,
+        }"
       />
     </div>
   </div>
@@ -31,8 +30,8 @@
 
 <script>
 import { mapActions, mapState, mapGetters } from "vuex";
-
 import SummaryHeader from "@/components/SummaryHeader";
+import Player from "@/components/Player";
 
 export default {
   name: "Episode",
@@ -44,6 +43,7 @@ export default {
   },
   components: {
     SummaryHeader,
+    Player,
   },
   computed: {
     ...mapState("podcast", {
@@ -55,8 +55,11 @@ export default {
       selectedEpisodeIndex: "selectedEpisodeIndex",
       isSelctedEpisodeLast: "isSelctedEpisodeLast",
     }),
-    player() {
-      return this.$refs.player;
+    childPlayer() {
+      return this.$refs.playerComponent;
+    },
+    audioPlayer() {
+      return this.childPlayer.$refs.audioPlayer;
     },
   },
   methods: {
@@ -73,18 +76,18 @@ export default {
     },
     handleCanplay() {
       if (!this.isFirstTimeEnter) {
-        this.player.play();
+        this.audioPlayer.play();
       }
     },
     selectEpisodeByRouteParam(guid) {
       this.selectEpisode({ guid });
     },
     togglePlayPodcast() {
-      const isEpisodePaused = this.$refs.player.paused;
+      const isEpisodePaused = this.audioPlayer.paused;
       if (isEpisodePaused) {
-        this.player.play();
+        this.audioPlayer.play();
       } else {
-        this.player.pause();
+        this.audioPlayer.pause();
       }
     },
     changeToNextEpisode() {
@@ -136,7 +139,9 @@ export default {
     white-space: pre-wrap;
   }
   &-player {
-    margin-top: 4 * $base-element-space;
+    width: 85%;
+    position: fixed;
+    bottom: 0;
   }
 }
 </style>
