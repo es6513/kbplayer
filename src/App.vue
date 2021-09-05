@@ -1,21 +1,23 @@
 <template>
   <div id="app">
-    <div v-if="isPodcastLoading">Loading</div>
-    <div v-else>
+    <loading-overlay :isLoading="isPodcastLoading" />
+    <template v-if="!isPodcastLoading">
       <header-bar />
       <router-view />
-    </div>
+    </template>
   </div>
 </template>
 
 <script>
 import HeaderBar from "@/components/Header";
+import LoadingOverlay from "@/components/LoadingOverlay";
 import { mapActions, mapGetters } from "vuex";
 
 export default {
   name: "App",
   components: {
     HeaderBar,
+    LoadingOverlay,
   },
   computed: {
     ...mapGetters("podcast", {
@@ -25,7 +27,7 @@ export default {
   methods: {
     ...mapActions("podcast", ["fetchAndParsePodcastFeed"]),
   },
-  mounted() {
+  created() {
     this.fetchAndParsePodcastFeed({
       endPoint: "/api/podcasts/954689a5-3096-43a4-a80b-7810b219cef3/feed.xml",
     });

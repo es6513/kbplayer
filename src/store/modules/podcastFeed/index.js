@@ -37,7 +37,7 @@ const actions = {
   },
   selectEpisode({ commit, state }, payload) {
     const { guid } = payload;
-    const selectedEpisode = state.feed.items.find(
+    const selectedEpisode = state.feedData.items.find(
       (episode) => episode.guid === guid
     );
     commit(PodcastMutations.SET_SELECTED_EPISODE, { selectedEpisode });
@@ -59,10 +59,18 @@ const getters = {
   episodes: (state) => state.feedData.items,
   isLoading: (state, getters, rootState) => {
     const { loadingQueue } = rootState.system;
-    console.log(loadingQueue);
     const isLoading = loadingQueue.some((queue) => queue.name === moduleName);
-    console.log("1234");
     return isLoading;
+  },
+  isSelctedEpisodeNull: (state) => state.selectedEpisode === null,
+  selectedEpisodeIndex: (state, getters) => {
+    const selectedEpisodeIndex = getters.episodes.findIndex(
+      (episode) => episode.guid === state.selectedEpisode.guid
+    );
+    return selectedEpisodeIndex;
+  },
+  isSelctedEpisodeLast: (state, getters) => {
+    return getters.selectedEpisodeIndex === 0;
   },
 };
 

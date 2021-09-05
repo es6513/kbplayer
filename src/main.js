@@ -2,10 +2,12 @@ import Vue from "vue";
 import App from "./App.vue";
 import router from "./router";
 import store from "./store";
+import dayjs from "dayjs";
 import "@/scss/reset.scss";
 import "@/scss/global.scss";
 
 Vue.config.productionTip = false;
+Vue.prototype.dayjs = dayjs;
 
 new Vue({
   router,
