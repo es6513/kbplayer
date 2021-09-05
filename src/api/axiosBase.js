@@ -1,7 +1,6 @@
 import axios from "axios";
 
 const instance = axios.create({
-  baseURL: `https:${process.env.VUE_APP_PODCAST_URL}`,
   timeout: 10000,
 });
 
@@ -14,3 +13,5 @@ instance.interceptors.response.use(
   (reponse) => reponse,
   (error) => Promise.reject(error)
 );
+
+export const apiGetRequest = ({ url, config }) => instance.get(url, config);
