@@ -1,0 +1,16 @@
+@import "./variable.scss";
+
+*{
+  box-sizing: border-box;
+}
+
+html,body {
+  height: 100%;
+}
+
+body {
+  width: 85%;
+  margin: 0 auto;
+  background-color: $theme-color;
+  color: $white;
+}
