@@ -14,6 +14,9 @@
       <div class="episode-body-desc">{{ selectedEpisode.content }}</div>
     </div>
     <div class="episode-player">
+      <div v-if="isAudioSourceLoading" class="episode-player-loading">
+        <Loading />
+      </div>
       <Player
         ref="playerComponent"
         :audioSource="selectedEpisode.enclosure.url"
@@ -22,6 +25,7 @@
           handlePause,
           handlePlay,
           handlePlayEnd,
+          handleWaiting,
         }"
       />
     </div>
@@ -32,18 +36,21 @@
 import { mapActions, mapState, mapGetters } from "vuex";
 import SummaryHeader from "@/components/SummaryHeader";
 import Player from "@/components/Player";
+import Loading from "@/components/Loading";
 
 export default {
   name: "Episode",
   data() {
     return {
       isPlaying: false,
+      isAudioSourceLoading: false,
       isFirstTimeEnter: true,
     };
   },
   components: {
     SummaryHeader,
     Player,
+    Loading,
   },
   computed: {
     ...mapState("podcast", {
@@ -68,6 +75,10 @@ export default {
       this.changeToNextEpisode();
       if (this.isFirstTimeEnter) this.isFirstTimeEnter = false;
     },
+    handleWaiting() {
+      this.isAudioSourceLoading = true;
+      console.log("isWaiting");
+    },
     handlePlay() {
       this.isPlaying = true;
     },
@@ -75,6 +86,8 @@ export default {
       this.isPlaying = false;
     },
     handleCanplay() {
+      console.log("canplay");
+      this.isAudioSourceLoading = false;
       if (!this.isFirstTimeEnter) {
         this.audioPlayer.play();
       }
@@ -127,6 +140,7 @@ export default {
 
   &-body {
     margin-top: 4 * $base-element-space;
+    padding-bottom: 10 * $base-element-space;
   }
 
   &-body-title {
@@ -142,6 +156,13 @@ export default {
     width: 85%;
     position: fixed;
     bottom: 0;
+  }
+
+  &-player-loading {
+    position: absolute;
+    top: 50%;
+    left: -4 * $base-element-space;
+    transform: translateY(-50%);
   }
 }
 </style>

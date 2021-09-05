@@ -1,4 +1,4 @@
-<template lang="">
+<template>
   <audio
     ref="audioPlayer"
     controls
@@ -8,6 +8,7 @@
     @pause="eventCallback.handlePause"
     @play="eventCallback.handlePlay"
     @ended="eventCallback.handlePlayEnd"
+    @waiting="eventCallback.handleWaiting"
   />
 </template>
 <script>
