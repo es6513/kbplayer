@@ -8,6 +8,9 @@ const errorHandle = (status, message) => {
     case 401:
       console.error(message);
       break;
+    case 403:
+      console.error(message);
+      break;
     case 404:
       console.error(message);
       break;

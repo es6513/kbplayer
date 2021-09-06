@@ -3,7 +3,7 @@
     <summary-header :imageUrl="feedData.image.url" :title="feedData.title" />
     <div class="episode-list">
       <div
-        v-for="episode in episodes"
+        v-for="episode in filterdEpisodes"
         :key="episode.guid"
         @click="handleSelectEpisode(episode.guid)"
       >
@@ -32,6 +32,9 @@ export default {
     ...mapGetters("podcast", {
       episodes: "episodes",
     }),
+    filterdEpisodes() {
+      return this.episodes.slice(0, 20);
+    },
   },
   methods: {
     ...mapActions("podcast", ["selectEpisode"]),

@@ -4,6 +4,7 @@
     <template v-if="!isPodcastLoading">
       <header-bar />
       <router-view />
+      <scroll-top-control />
     </template>
   </div>
 </template>
@@ -11,6 +12,7 @@
 <script>
 import HeaderBar from "@/components/Header";
 import LoadingOverlay from "@/components/LoadingOverlay";
+import ScrollTopControl from "@/components/ScrollTopControl";
 import { mapActions, mapGetters } from "vuex";
 
 export default {
@@ -18,6 +20,7 @@ export default {
   components: {
     HeaderBar,
     LoadingOverlay,
+    ScrollTopControl,
   },
   computed: {
     ...mapGetters("podcast", {
