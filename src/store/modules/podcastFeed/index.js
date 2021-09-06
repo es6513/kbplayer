@@ -23,17 +23,22 @@ const actions = {
       },
       { root: true }
     );
-    const xmlResponse = await apiGetXmlFile({ endPoint });
-    const parsedXmlData = await parse.parseString(xmlResponse.data);
-    commit(PodcastMutations.GET_FETCHED_FEED, { feedData: parsedXmlData });
-    commit(
-      `system/${SystemMutation.REMOVE_LOADING}`,
-      {
-        name: moduleName,
-        id: randomId,
-      },
-      { root: true }
-    );
+
+    try {
+      const xmlResponse = await apiGetXmlFile({ endPoint });
+      const parsedXmlData = await parse.parseString(xmlResponse.data);
+      commit(PodcastMutations.GET_FETCHED_FEED, { feedData: parsedXmlData });
+      commit(
+        `system/${SystemMutation.REMOVE_LOADING}`,
+        {
+          name: moduleName,
+          id: randomId,
+        },
+        { root: true }
+      );
+    } catch (error) {
+      console.error(error);
+    }
   },
   selectEpisode({ commit, state }, payload) {
     const { guid } = payload;

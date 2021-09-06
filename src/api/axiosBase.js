@@ -42,7 +42,7 @@ instance.interceptors.response.use(
     if (response) {
       errorHandle(status, data);
     }
-    return response;
+    return Promise.reject(error);
   }
 );
 
