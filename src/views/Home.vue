@@ -36,7 +36,6 @@ export default {
   methods: {
     ...mapActions("podcast", ["selectEpisode"]),
     handleSelectEpisode(guid) {
-      console.log(guid);
       this.selectEpisode({ guid });
       this.$router.push({ path: `/episode/${guid}` });
     },
@@ -44,9 +43,6 @@ export default {
       const format = "ddd, DD MMM YYYY h:mm A";
       return this.dayjs(date).format(format);
     },
-  },
-  mounted() {
-    console.log(this.feedData);
   },
 };
 </script>

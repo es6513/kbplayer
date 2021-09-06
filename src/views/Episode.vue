@@ -1,5 +1,5 @@
 <template>
-  <div class="episode">
+  <div v-if="!isSelctedEpisodeNull" class="episode">
     <div class="episode-header">
       <summary-header
         :imageUrl="selectedEpisode.itunes.image"
@@ -68,6 +68,13 @@ export default {
     audioPlayer() {
       return this.childPlayer.$refs.audioPlayer;
     },
+    isDataExist() {
+      const episodeId = this.$route.params.id;
+      const isDataExistById = this.episodes.find(
+        (episode) => episode.guid === episodeId
+      );
+      return isDataExistById !== undefined;
+    },
   },
   methods: {
     ...mapActions("podcast", ["selectEpisode"]),
@@ -77,7 +84,6 @@ export default {
     },
     handleWaiting() {
       this.isAudioSourceLoading = true;
-      console.log("isWaiting");
     },
     handlePlay() {
       this.isPlaying = true;
@@ -86,7 +92,6 @@ export default {
       this.isPlaying = false;
     },
     handleCanplay() {
-      console.log("canplay");
       this.isAudioSourceLoading = false;
       if (!this.isFirstTimeEnter) {
         this.audioPlayer.play();
@@ -107,14 +112,22 @@ export default {
       if (this.isSelctedEpisodeLast) return;
       const nextEpisode = this.episodes[this.selectedEpisodeIndex - 1];
       const { guid } = nextEpisode;
-      this.$router.replace({ path: `/episode/${guid}` });
+      this.$router.push({ path: `/episode/${guid}` });
       this.selectEpisode({ guid });
+    },
+    initFlow() {
+      if (!this.isDataExist) {
+        alert("This Episode does not exist ! Will redirect to home page");
+        this.$router.push({ path: "/" });
+        return;
+      }
+      if (this.isSelctedEpisodeNull) {
+        this.selectEpisodeByRouteParam(this.$route.params.id);
+      }
     },
   },
   created() {
-    if (this.isSelctedEpisodeNull) {
-      this.selectEpisodeByRouteParam(this.$route.params.id);
-    }
+    this.initFlow();
   },
 };
 </script>

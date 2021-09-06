@@ -26,11 +26,14 @@ export default {
   },
   methods: {
     ...mapActions("podcast", ["fetchAndParsePodcastFeed"]),
+    initFlow() {
+      this.fetchAndParsePodcastFeed({
+        endPoint: "/api/podcasts/954689a5-3096-43a4-a80b-7810b219cef3/feed.xml",
+      });
+    },
   },
   created() {
-    this.fetchAndParsePodcastFeed({
-      endPoint: "/api/podcasts/954689a5-3096-43a4-a80b-7810b219cef3/feed.xml",
-    });
+    this.initFlow();
   },
 };
 </script>
