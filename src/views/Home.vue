@@ -24,6 +24,13 @@ import { mapActions, mapState, mapGetters } from "vuex";
 
 export default {
   name: "Home",
+  data() {
+    return {
+      episodeLimit: 10,
+      episodeExtraNumber: 10,
+      scroll: null,
+    };
+  },
   components: { SummaryHeader, EpisodeItem },
   computed: {
     ...mapState("podcast", {
@@ -33,7 +40,7 @@ export default {
       episodes: "episodes",
     }),
     filterdEpisodes() {
-      return this.episodes.slice(0, 20);
+      return this.episodes.slice(0, this.episodeLimit);
     },
   },
   methods: {
@@ -46,6 +53,19 @@ export default {
       const format = "ddd, DD MMM YYYY h:mm A";
       return this.dayjs(date).format(format);
     },
+    handleScroll() {
+      const isPageBottom =
+        window.innerHeight + window.scrollY >= document.body.scrollHeight;
+      if (isPageBottom) {
+        this.episodeLimit += this.episodeExtraNumber;
+      }
+    },
+  },
+  created() {
+    window.addEventListener("scroll", this.handleScroll);
+  },
+  destroyed() {
+    window.removeEventListener("scroll", this.handleScroll);
   },
 };
 </script>
