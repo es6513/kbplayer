@@ -174,7 +174,7 @@ export default {
   &-player-loading {
     position: absolute;
     top: 50%;
-    left: -4 * $base-element-space;
+    right: -4 * $base-element-space;
     transform: translateY(-50%);
   }
 }
