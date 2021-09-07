@@ -14,12 +14,14 @@
         />
       </div>
     </div>
+    <scroll-top-control />
   </div>
 </template>
 
 <script>
 import SummaryHeader from "@/components/SummaryHeader";
 import EpisodeItem from "@/components/EpisodeItem";
+import ScrollTopControl from "@/components/ScrollTopControl";
 import { mapActions, mapState, mapGetters } from "vuex";
 
 export default {
@@ -31,7 +33,11 @@ export default {
       scroll: null,
     };
   },
-  components: { SummaryHeader, EpisodeItem },
+  components: {
+    SummaryHeader,
+    EpisodeItem,
+    ScrollTopControl,
+  },
   computed: {
     ...mapState("podcast", {
       feedData: (state) => state.feedData,
