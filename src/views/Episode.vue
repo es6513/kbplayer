@@ -26,7 +26,7 @@
           handlePause,
           handlePlayEnd,
         }"
-        :isLoop="isLoop"
+        :isLoop="!isSelctedEpisodeLast"
       />
     </div>
   </div>
@@ -42,7 +42,6 @@ export default {
   data() {
     return {
       isPlaying: false,
-      isAudioSourceLoading: false,
       isFirstTimeEnter: true,
     };
   },
@@ -77,18 +76,12 @@ export default {
       const audioSource = this.selectedEpisode.enclosure.url;
       return [{ url: audioSource }];
     },
-    isLoop() {
-      return this.isFirstTimeEnter && !this.isSelctedEpisodeLast;
-    },
   },
   methods: {
     ...mapActions("podcast", ["selectEpisode"]),
     handlePlayEnd() {
       this.changeToNextEpisode();
       if (this.isFirstTimeEnter) this.isFirstTimeEnter = false;
-    },
-    handleWaiting() {
-      this.isAudioSourceLoading = true;
     },
     handlePlay() {
       this.isPlaying = true;
@@ -97,7 +90,6 @@ export default {
       this.isPlaying = false;
     },
     handleCanplay() {
-      this.isAudioSourceLoading = false;
       if (!this.isFirstTimeEnter) {
         this.audioPlayer.play();
       }
