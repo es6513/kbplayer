@@ -1,20 +1,23 @@
 <template>
-  <div v-if="!isSelctedEpisodeNull" class="episode">
-    <div class="episode-header">
-      <summary-header
-        :imageUrl="selectedEpisode.itunes.image"
-        :title="selectedEpisode.title"
-      />
-      <div class="episode-play" @click="togglePlayPodcast">
-        {{ isPlaying ? "Pause" : "Play" }}
+  <div class="episode">
+    <div v-if="!isSelctedEpisodeNull">
+      <div class="episode-header">
+        <summary-header
+          :imageUrl="selectedEpisode.itunes.image"
+          :title="selectedEpisode.title"
+        />
+        <div class="episode-play" @click="togglePlayPodcast">
+          {{ isPlaying ? "Pause" : "Play" }}
+        </div>
       </div>
-    </div>
-    <div class="episode-body">
-      <div class="episode-body-title">Episode Description</div>
-      <div class="episode-body-desc">{{ selectedEpisode.content }}</div>
+      <div class="episode-body">
+        <div class="episode-body-title">Episode Description</div>
+        <div class="episode-body-desc">{{ selectedEpisode.content }}</div>
+      </div>
     </div>
     <div class="episode-player">
       <player
+        class="episode-player-controll"
         ref="playerComponent"
         :audioList="audioList"
         :eventCallback="{
@@ -170,8 +173,17 @@ export default {
   }
   &-player {
     width: 100%;
-    position: absolute;
+    background-color: $deep-green;
+    padding: $base-element-space;
+    position: fixed;
     bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+
+  &-player-controll {
+    width: 90%;
+    margin: 0 auto;
   }
 
   &-player-loading {

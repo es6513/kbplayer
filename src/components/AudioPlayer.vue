@@ -1,16 +1,18 @@
 <template>
-  <audio-player
-    ref="audioPlayer"
-    :audio-list="audioList.map((elm) => elm.url)"
-    :theme-color="themeColor"
-    :show-prev-button="showPrevBtn"
-    :show-next-button="showNextBtn"
-    :show-playback-rate="showPlaybackRate"
-    :isLoop="isLoop"
-    @pause="eventCallback.handlePause"
-    @play="eventCallback.handlePlay"
-    @ended="eventCallback.handlePlayEnd"
-  />
+  <div class="audio-player">
+    <audio-player
+      ref="audioPlayer"
+      :audio-list="audioList.map((elm) => elm.url)"
+      :theme-color="themeColor"
+      :show-prev-button="showPrevBtn"
+      :show-next-button="showNextBtn"
+      :show-playback-rate="showPlaybackRate"
+      :isLoop="isLoop"
+      @pause="eventCallback.handlePause"
+      @play="eventCallback.handlePlay"
+      @ended="eventCallback.handlePlayEnd"
+    />
+  </div>
 </template>
 <script>
 import AudioPlayer from "@liripeng/vue-audio-player";
@@ -54,13 +56,19 @@ export default {
   },
 };
 </script>
-<style lang="scss">
+<style lang="scss" scoped>
 @import "@/scss/variable.scss";
 
-.audio__time-wrap {
-  > div {
-    color: $black !important;
-    font-size: $base-font-size !important;
+.audio-player {
+  ::v-deep .audio__time-wrap {
+    > div {
+      color: $black !important;
+      font-size: 1.5 * $base-font-size !important;
+    }
+  }
+
+  ::v-deep .audio__progress-wrap {
+    height: 4px;
   }
 }
 </style>
