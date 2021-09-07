@@ -67,14 +67,14 @@ const getters = {
     const isLoading = loadingQueue.some((queue) => queue.name === moduleName);
     return isLoading;
   },
-  isSelctedEpisodeNull: (state) => state.selectedEpisode === null,
+  isSelectedEpisodeNull: (state) => state.selectedEpisode === null,
   selectedEpisodeIndex: (state, getters) => {
     const selectedEpisodeIndex = getters.episodes.findIndex(
       (episode) => episode.guid === state.selectedEpisode.guid
     );
     return selectedEpisodeIndex;
   },
-  isSelctedEpisodeLast: (state, getters) => {
+  isSelectedEpisodeLast: (state, getters) => {
     return getters.selectedEpisodeIndex === 0;
   },
 };

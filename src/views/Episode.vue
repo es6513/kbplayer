@@ -1,6 +1,6 @@
 <template>
-  <div class="episode">
-    <div v-if="!isSelctedEpisodeNull">
+  <div v-if="!isSelectedEpisodeNull" class="episode">
+    <div class="episode-info">
       <div class="episode-header">
         <summary-header
           :imageUrl="selectedEpisode.itunes.image"
@@ -26,7 +26,7 @@
           handlePause,
           handlePlayEnd,
         }"
-        :isLoop="!isSelctedEpisodeLast"
+        :isLoop="!isSelectedEpisodeLast"
       />
     </div>
   </div>
@@ -55,9 +55,9 @@ export default {
     }),
     ...mapGetters("podcast", {
       episodes: "episodes",
-      isSelctedEpisodeNull: "isSelctedEpisodeNull",
+      isSelectedEpisodeNull: "isSelectedEpisodeNull",
       selectedEpisodeIndex: "selectedEpisodeIndex",
-      isSelctedEpisodeLast: "isSelctedEpisodeLast",
+      isSelectedEpisodeLast: "isSelectedEpisodeLast",
     }),
     childPlayer() {
       return this.$refs.playerComponent;
@@ -106,7 +106,7 @@ export default {
       }
     },
     changeToNextEpisode() {
-      if (this.isSelctedEpisodeLast) return;
+      if (this.isSelectedEpisodeLast) return;
       const nextEpisode = this.episodes[this.selectedEpisodeIndex - 1];
       const { guid } = nextEpisode;
       this.$router.push({ path: `/episode/${guid}` });
@@ -118,7 +118,7 @@ export default {
         this.$router.push({ path: "/" });
         return;
       }
-      if (this.isSelctedEpisodeNull) {
+      if (this.isSelectedEpisodeNull) {
         this.selectEpisodeByRouteParam(this.$route.params.id);
       }
     },
@@ -134,6 +134,10 @@ export default {
 
 .episode {
   position: relative;
+
+  &-info {
+    padding-bottom: 15 * $base-element-space;
+  }
   &-header {
     display: flex;
     justify-content: space-between;
@@ -151,7 +155,6 @@ export default {
 
   &-body {
     margin-top: 4 * $base-element-space;
-    padding-bottom: 10 * $base-element-space;
   }
 
   &-body-title {
