@@ -39,6 +39,10 @@ import Player from "@/components/AudioPlayer";
 
 export default {
   name: "Episode",
+  beforeRouteEnter(to, from, next) {
+    // ...
+    next();
+  },
   data() {
     return {
       isPlaying: false,

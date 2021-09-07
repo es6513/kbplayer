@@ -11,8 +11,7 @@
 <script>
 import HeaderBar from "@/components/Header";
 import LoadingOverlay from "@/components/LoadingOverlay";
-import { mapActions, mapGetters } from "vuex";
-import { podcastEndPointMap } from "@/config/podcastEndPoint";
+import { mapGetters } from "vuex";
 
 export default {
   name: "App",
@@ -24,17 +23,6 @@ export default {
     ...mapGetters("system", {
       isGlobalLoading: "isLoading",
     }),
-  },
-  methods: {
-    ...mapActions("podcast", ["fetchAndParsePodcastFeed"]),
-    initFlow() {
-      this.fetchAndParsePodcastFeed({
-        endPoint: podcastEndPointMap.kkbox,
-      });
-    },
-  },
-  created() {
-    this.initFlow();
   },
 };
 </script>
