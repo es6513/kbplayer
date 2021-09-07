@@ -2,6 +2,95 @@
 # yarn lockfile v1
 
 
+"@any-touch/compute@^1.0.13":
+  version "1.0.13"
+  resolved "https://registry.yarnpkg.com/@any-touch/compute/-/compute-1.0.13.tgz#b4b1a984657637df3a0c68090c425e0b9327e8dd"
+  integrity sha512-xvv91roQm5l7Q1wLW0BGom+9WZaK3vgb0CCYL0wei+uxXZFYcRwuFWUswoNwo5Vu4kZ26afJTgQJ65SxZkd1sg==
+  dependencies:
+    "@any-touch/shared" "^1.0.13"
+    "@any-touch/vector" "^1.0.13"
+    tslib "^1.9.3"
+
+"@any-touch/core@^1.0.13":
+  version "1.0.13"
+  resolved "https://registry.yarnpkg.com/@any-touch/core/-/core-1.0.13.tgz#09bb4b91b0ef90ee3c39d951288ad9251d3209c9"
+  integrity sha512-Ydop4TpelNZCAUy0psjjgrHE+mAZ9/fukxvyGvCcvI4yXOKgRYvRs1hycT5O9aafNHkDXJroTowxjbBx7BLFEQ==
+  dependencies:
+    "@any-touch/shared" "^1.0.13"
+    any-event "^1.0.13"
+
+"@any-touch/pan@^1.0.13":
+  version "1.0.13"
+  resolved "https://registry.yarnpkg.com/@any-touch/pan/-/pan-1.0.13.tgz#572ff2f3bed6171c15a0ae7c7b4a003cffe252a1"
+  integrity sha512-WDpHLFB665NiDDUz9ygQzDqs5N7tv0cFp3z/tcl/hohyVPlToA9jMGC8YYoe23NiouIoqa6m1AbF7fBcFbF3/Q==
+  dependencies:
+    "@any-touch/compute" "^1.0.13"
+    "@any-touch/recognizer" "^1.0.13"
+    "@any-touch/shared" "^1.0.13"
+
+"@any-touch/pinch@^1.0.13":
+  version "1.0.13"
+  resolved "https://registry.yarnpkg.com/@any-touch/pinch/-/pinch-1.0.13.tgz#173159d8fcb4dcfb4e5c138c3626fca2fd50ee95"
+  integrity sha512-nBpoh4NZk04hJX08vt89vzoo+NABNGXMr1ounvpojvelDLoEKsKRBy/CKPWPPI5sZTsShtsAuvvQiCSyLkhhpw==
+  dependencies:
+    "@any-touch/compute" "^1.0.13"
+    "@any-touch/recognizer" "^1.0.13"
+
+"@any-touch/press@^1.0.13":
+  version "1.0.13"
+  resolved "https://registry.yarnpkg.com/@any-touch/press/-/press-1.0.13.tgz#8f0751b2a14ff77d4106535ed352d77f0899cf7f"
+  integrity sha512-bzzvW7ncXpQjb1ncr82vbZgXI/JI3wSMXBs3bcxLVnBYnieOyY//FiZwT5HEksIPm8ubjNOeKS68rBuLLS9vOQ==
+  dependencies:
+    "@any-touch/compute" "^1.0.13"
+    "@any-touch/recognizer" "^1.0.13"
+    "@any-touch/shared" "^1.0.13"
+
+"@any-touch/recognizer@^1.0.13":
+  version "1.0.13"
+  resolved "https://registry.yarnpkg.com/@any-touch/recognizer/-/recognizer-1.0.13.tgz#6615efb385e156cc7e3520fee73c0f3765e1cdd8"
+  integrity sha512-lFvlMMPAvsk6xoBVdWHVOl6/KCdm7jDI280cEErYJakx1CQforbTlH5+l41Rsb7T5TYL2d2ZQzOEbYHrcJl+Uw==
+  dependencies:
+    "@any-touch/shared" "^1.0.13"
+
+"@any-touch/rotate@^1.0.13":
+  version "1.0.13"
+  resolved "https://registry.yarnpkg.com/@any-touch/rotate/-/rotate-1.0.13.tgz#6fa0671cd3ec1c8b50649ce468eadfe2277f12f5"
+  integrity sha512-+WccAiU6gBIE4j4+SbiF1BWJAnUPY6FXStCs/6b+FkvPW3Zv009pQc3w4KCzAZKJncvTWcZ8hnZ2mH+04OI6Sw==
+  dependencies:
+    "@any-touch/compute" "^1.0.13"
+    "@any-touch/recognizer" "^1.0.13"
+
+"@any-touch/shared@^1.0.13":
+  version "1.0.13"
+  resolved "https://registry.yarnpkg.com/@any-touch/shared/-/shared-1.0.13.tgz#e8bdf8e3afa842b7b614d8ee2822603b67c41827"
+  integrity sha512-qtDVuWKQZ3uu4Uo/kiU5ZNDCmibheO6c7vJLQ18C15ERhlX96jcmzPFFhxdz+Zsdupoy2Eb7xDAqgDtdReFC2Q==
+
+"@any-touch/swipe@^1.0.13":
+  version "1.0.13"
+  resolved "https://registry.yarnpkg.com/@any-touch/swipe/-/swipe-1.0.13.tgz#0a99cd5a915f064e1746ec6842efa45ebfba3f5c"
+  integrity sha512-wSWe6WzUIYiZfZuTma9pZcKYDFc2thDweJGhQLUWXjFRf5F/aQWOjDoUpcu7iTsJzIhcOp3Immc7o6fHPmAFdA==
+  dependencies:
+    "@any-touch/compute" "^1.0.13"
+    "@any-touch/recognizer" "^1.0.13"
+    "@any-touch/shared" "^1.0.13"
+
+"@any-touch/tap@^1.0.13":
+  version "1.0.13"
+  resolved "https://registry.yarnpkg.com/@any-touch/tap/-/tap-1.0.13.tgz#813c3be73d75f3a5cd8538ad996bf5dcd0b42400"
+  integrity sha512-jiZ63WjAaQcDOKjkCTdZW/gACii5M13hv8mmNvRfEbbi7nFRzgyzkblVUvQ6LtzGdJDlljqVKXLifQcr8CW3jw==
+  dependencies:
+    "@any-touch/compute" "^1.0.13"
+    "@any-touch/recognizer" "^1.0.13"
+    "@any-touch/shared" "^1.0.13"
+    "@any-touch/vector" "^1.0.13"
+
+"@any-touch/vector@^1.0.13":
+  version "1.0.13"
+  resolved "https://registry.yarnpkg.com/@any-touch/vector/-/vector-1.0.13.tgz#05c53e8fe67c145a7e6a48f772a4cafe583b234c"
+  integrity sha512-iWhMuvwjhgUkpA9iuMP/dIy8QZOjfzK+JM/NJKTaHLWKp1mOm0r+rcHJU32JABGXjg45NNDKRzsc+afe/JFYIg==
+  dependencies:
+    "@any-touch/shared" "^1.0.13"
+
 "@babel/code-frame@^7.0.0", "@babel/code-frame@^7.14.5":
   version "7.14.5"
   resolved "https://registry.yarnpkg.com/@babel/code-frame/-/code-frame-7.14.5.tgz#23b08d740e83f49c5e59945fbf1b43e80bbf4edb"
@@ -1100,6 +1189,16 @@
     "@types/istanbul-reports" "^1.1.1"
     "@types/yargs" "^13.0.0"
 
+"@liripeng/vue-audio-player@^1.2.10", "@liripeng/vue-audio-player@^1.2.11":
+  version "1.2.11"
+  resolved "https://registry.yarnpkg.com/@liripeng/vue-audio-player/-/vue-audio-player-1.2.11.tgz#27a37a47e574e00838cb51ea954f0bdf2f44de80"
+  integrity sha512-7z8KcKJFPVr1ZD2FnUz9UQ6oeH8g3YJFTh91E2ardhLkteHiOgsVufDS1Yg8NMxLuFcOxVA9CNivg7VjG4U+Qw==
+  dependencies:
+    "@liripeng/vue-audio-player" "^1.2.10"
+    any-touch "^1.0.13"
+    vue "^2.6.14"
+    vue-router "^3.5.1"
+
 "@mrmlnc/readdir-enhanced@^2.2.1":
   version "2.2.1"
   resolved "https://registry.yarnpkg.com/@mrmlnc/readdir-enhanced/-/readdir-enhanced-2.2.1.tgz#524af240d1a360527b730475ecfa1344aa540dde"
@@ -1989,10 +2088,32 @@ ansi-styles@^4.0.0, ansi-styles@^4.1.0:
   dependencies:
     color-convert "^2.0.1"
 
+any-event@^1.0.13:
+  version "1.0.13"
+  resolved "https://registry.yarnpkg.com/any-event/-/any-event-1.0.13.tgz#f7fdb90b9bba4e232254b2cc6f170da383b1fde3"
+  integrity sha512-sQCwmO/u8Jcn6gI8Ym4UWC6OfXvCBLoJ8QEtJgdUKn8zInBdwMbKjcL5TpFWxhN88tk+Ph+asf9Tgep2ufLeNg==
+  dependencies:
+    tslib "^1.9.3"
+
 any-promise@^1.0.0:
   version "1.3.0"
   resolved "https://registry.yarnpkg.com/any-promise/-/any-promise-1.3.0.tgz#abc6afeedcea52e809cdc0376aed3ce39635d17f"
   integrity sha1-q8av7tzqUugJzcA3au0845Y10X8=
+
+any-touch@^1.0.13:
+  version "1.0.13"
+  resolved "https://registry.yarnpkg.com/any-touch/-/any-touch-1.0.13.tgz#10011b573aa3c96a976285978fd48be97b0a9420"
+  integrity sha512-An74RhlnhqaIEIRUw15uGUkcsXQ1cfJEI9iFZJ9p5HyKuF0OEGdRYkfPgd6C6DdiMuUBBjargM+5R1xUu+Gu7A==
+  dependencies:
+    "@any-touch/core" "^1.0.13"
+    "@any-touch/pan" "^1.0.13"
+    "@any-touch/pinch" "^1.0.13"
+    "@any-touch/press" "^1.0.13"
+    "@any-touch/rotate" "^1.0.13"
+    "@any-touch/swipe" "^1.0.13"
+    "@any-touch/tap" "^1.0.13"
+    any-event "^1.0.13"
+    tslib "^1.9.3"
 
 anymatch@^2.0.0:
   version "2.0.0"
@@ -9942,7 +10063,7 @@ tsconfig@^7.0.0:
     strip-bom "^3.0.0"
     strip-json-comments "^2.0.0"
 
-tslib@^1.9.0:
+tslib@^1.9.0, tslib@^1.9.3:
   version "1.14.1"
   resolved "https://registry.yarnpkg.com/tslib/-/tslib-1.14.1.tgz#cf2d38bdc34a134bcaf1091c41f6619e2f672d00"
   integrity sha512-Xni35NKzjgMrwevysHTCArtLDpPvye8zV/0E4EyYn43P7/7qvQwPh9BGkHewbMulVntbigmcT7rdX3BNo9wRJg==
@@ -10314,7 +10435,7 @@ vue-loading-overlay@^3.0:
   resolved "https://registry.yarnpkg.com/vue-loading-overlay/-/vue-loading-overlay-3.4.2.tgz#34792a83218df1d35dff50121ce9fac2114f1c38"
   integrity sha512-xcB+NPjl76eA0uggm707x3ZFgrNosZXpynHipyS3K+rrK1NztOV49R1LY+/4ij5W1KYANp7eRI2EIHrxCpmWAw==
 
-vue-router@^3.2.0:
+vue-router@^3.2.0, vue-router@^3.5.1:
   version "3.5.2"
   resolved "https://registry.yarnpkg.com/vue-router/-/vue-router-3.5.2.tgz#5f55e3f251970e36c3e8d88a7cd2d67a350ade5c"
   integrity sha512-807gn82hTnjCYGrnF3eNmIw/dk7/GE4B5h69BlyCK9KHASwSloD1Sjcn06zg9fVG4fYH2DrsNBZkpLtb25WtaQ==
@@ -10340,7 +10461,7 @@ vue-template-es2015-compiler@^1.6.0, vue-template-es2015-compiler@^1.9.0:
   resolved "https://registry.yarnpkg.com/vue-template-es2015-compiler/-/vue-template-es2015-compiler-1.9.1.tgz#1ee3bc9a16ecbf5118be334bb15f9c46f82f5825"
   integrity sha512-4gDntzrifFnCEvyoO8PqyJDmguXgVPxKiIxrBKjIowvL9l+N66196+72XVYR8BBf1Uv1Fgt3bGevJ+sEmxfZzw==
 
-vue@^2.6.11:
+vue@^2.6.11, vue@^2.6.14:
   version "2.6.14"
   resolved "https://registry.yarnpkg.com/vue/-/vue-2.6.14.tgz#e51aa5250250d569a3fbad3a8a5a687d6036e235"
   integrity sha512-x2284lgYvjOMj3Za7kqzRcUSxBboHqtgRE2zlos1qWaOye5yUmHn42LB1250NJBLRwEcdrB0JRwyPTEPhfQjiQ==
