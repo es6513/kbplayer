@@ -14,19 +14,16 @@
       <div class="episode-body-desc">{{ selectedEpisode.content }}</div>
     </div>
     <div class="episode-player">
-      <div v-if="isAudioSourceLoading" class="episode-player-loading">
-        <Loading />
-      </div>
-      <Player
+      <player
         ref="playerComponent"
-        :audioSource="selectedEpisode.enclosure.url"
+        :audioList="audioList"
         :eventCallback="{
           handleCanplay,
-          handlePause,
           handlePlay,
+          handlePause,
           handlePlayEnd,
-          handleWaiting,
         }"
+        :isLoop="isLoop"
       />
     </div>
   </div>
@@ -35,8 +32,7 @@
 <script>
 import { mapActions, mapState, mapGetters } from "vuex";
 import SummaryHeader from "@/components/SummaryHeader";
-import Player from "@/components/Player";
-import Loading from "@/components/Loading";
+import Player from "@/components/AudioPlayer";
 
 export default {
   name: "Episode",
@@ -50,7 +46,6 @@ export default {
   components: {
     SummaryHeader,
     Player,
-    Loading,
   },
   computed: {
     ...mapState("podcast", {
@@ -74,6 +69,13 @@ export default {
         (episode) => episode.guid === episodeId
       );
       return isDataExistById !== undefined;
+    },
+    audioList() {
+      const audioSource = this.selectedEpisode.enclosure.url;
+      return [{ url: audioSource }];
+    },
+    isLoop() {
+      return this.isFirstTimeEnter && !this.isSelctedEpisodeLast;
     },
   },
   methods: {
@@ -101,11 +103,11 @@ export default {
       this.selectEpisode({ guid });
     },
     togglePlayPodcast() {
-      const isEpisodePaused = this.audioPlayer.paused;
-      if (isEpisodePaused) {
-        this.audioPlayer.play();
-      } else {
+      const isEpisodePlaying = this.audioPlayer.isPlaying;
+      if (isEpisodePlaying) {
         this.audioPlayer.pause();
+      } else {
+        this.audioPlayer.play();
       }
     },
     changeToNextEpisode() {
@@ -136,6 +138,7 @@ export default {
 @import "@/scss/variable.scss";
 
 .episode {
+  position: relative;
   &-header {
     display: flex;
     justify-content: space-between;
@@ -166,8 +169,8 @@ export default {
     white-space: pre-wrap;
   }
   &-player {
-    width: 85%;
-    position: fixed;
+    width: 100%;
+    position: absolute;
     bottom: 0;
   }
 
