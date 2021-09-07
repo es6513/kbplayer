@@ -20,7 +20,9 @@ const mutations = {
   },
 };
 
-const getters = {};
+const getters = {
+  isLoading: (state) => state.loadingQueue.length !== 0,
+};
 
 export default {
   namespaced: true,

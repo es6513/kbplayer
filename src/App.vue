@@ -1,7 +1,7 @@
 <template>
   <div id="app">
-    <loading-overlay :isLoading="isPodcastLoading" />
-    <template v-if="!isPodcastLoading">
+    <loading-overlay :isLoading="isGlobalLoading" />
+    <template v-if="!isGlobalLoading">
       <header-bar />
       <router-view />
     </template>
@@ -12,6 +12,7 @@
 import HeaderBar from "@/components/Header";
 import LoadingOverlay from "@/components/LoadingOverlay";
 import { mapActions, mapGetters } from "vuex";
+import { podcastEndPointMap } from "@/config/podcastEndPoint";
 
 export default {
   name: "App",
@@ -20,15 +21,15 @@ export default {
     LoadingOverlay,
   },
   computed: {
-    ...mapGetters("podcast", {
-      isPodcastLoading: "isLoading",
+    ...mapGetters("system", {
+      isGlobalLoading: "isLoading",
     }),
   },
   methods: {
     ...mapActions("podcast", ["fetchAndParsePodcastFeed"]),
     initFlow() {
       this.fetchAndParsePodcastFeed({
-        endPoint: "/api/podcasts/954689a5-3096-43a4-a80b-7810b219cef3/feed.xml",
+        endPoint: podcastEndPointMap.kkbox,
       });
     },
   },
