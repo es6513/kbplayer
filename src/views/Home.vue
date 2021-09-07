@@ -60,8 +60,13 @@ export default {
       return this.dayjs(date).format(format);
     },
     handleScroll() {
+      console.log(
+        window.innerHeight,
+        window.scrollY,
+        document.body.scrollHeight
+      );
       const isPageBottom =
-        window.innerHeight + window.scrollY >= document.body.scrollHeight;
+        window.innerHeight + window.scrollY >= document.body.scrollHeight - 50;
       if (isPageBottom) {
         this.episodeLimit += this.episodeExtraNumber;
       }
