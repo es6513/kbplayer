@@ -15,27 +15,27 @@
         <div class="episode-body-desc">{{ selectedEpisode.content }}</div>
       </div>
     </div>
-    <div class="episode-player">
+    <!-- <div class="episode-player">
       <player
         class="episode-player-controll"
         ref="playerComponent"
+        :playerTitle="selectedEpisode.title"
         :audioList="audioList"
         :eventCallback="{
-          handleCanplay,
           handlePlay,
           handlePause,
           handlePlayEnd,
         }"
         :isLoop="!isSelectedEpisodeLast"
       />
-    </div>
+    </div> -->
   </div>
 </template>
 
 <script>
 import { mapActions, mapState, mapGetters } from "vuex";
 import SummaryHeader from "@/components/SummaryHeader";
-import Player from "@/components/AudioPlayer";
+// import Player from "@/components/AudioPlayer";
 
 export default {
   name: "Episode",
@@ -51,7 +51,7 @@ export default {
   },
   components: {
     SummaryHeader,
-    Player,
+    // Player,
   },
   computed: {
     ...mapState("podcast", {
@@ -92,11 +92,6 @@ export default {
     },
     handlePause() {
       this.isPlaying = false;
-    },
-    handleCanplay() {
-      if (!this.isFirstTimeEnter) {
-        this.audioPlayer.play();
-      }
     },
     selectEpisodeByRouteParam(guid) {
       this.selectEpisode({ guid });

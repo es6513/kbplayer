@@ -1,5 +1,7 @@
 <template>
   <div class="audio-player">
+    <span>{{ playerTitle }}</span>
+
     <audio-player
       ref="audioPlayer"
       :audio-list="audioList.map((elm) => elm.url)"
@@ -20,6 +22,10 @@ import "@liripeng/vue-audio-player/lib/vue-audio-player.css";
 
 export default {
   props: {
+    playerTitle: {
+      type: String,
+      default: "",
+    },
     audioList: {
       type: Array,
       required: true,
