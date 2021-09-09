@@ -46,8 +46,10 @@ export default {
       isGlobalLoading: "isLoading",
     }),
     ...mapGetters("podcast", {
+      episodes: "episodes",
       isPlayingEpisodeNull: "isPlayingEpisodeNull",
       isPlayingEpisodeLast: "isPlayingEpisodeLast",
+      playingEpisodeIndex: "playingEpisodeIndex",
     }),
     childPlayer() {
       return this.$refs.playerComponent;
@@ -75,10 +77,9 @@ export default {
     },
   },
   methods: {
-    ...mapActions("podcast", ["setPlayingState"]),
+    ...mapActions("podcast", ["setPlayingState", "setPlayingEpisode"]),
     handlePlayEnd() {
       this.changeToNextEpisode();
-      if (this.isFirstTimeEnter) this.isFirstTimeEnter = false;
     },
     handlePlay() {
       console.log("ererer");
@@ -90,6 +91,13 @@ export default {
     handleSetPlayingState(payload) {
       console.log("payload:", payload);
       this.setPlayingState(payload);
+    },
+    changeToNextEpisode() {
+      console.log(this.isPlayingEpisodeLast);
+      if (this.isPlayingEpisodeLast) return;
+      const nextEpisode = this.episodes[this.playingEpisodeIndex - 1];
+      const { guid } = nextEpisode;
+      this.setPlayingEpisode({ guid });
     },
   },
 };

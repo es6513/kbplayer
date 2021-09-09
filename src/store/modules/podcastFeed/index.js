@@ -98,7 +98,7 @@ const getters = {
     return playingEpisodeIndex;
   },
   isPlayingEpisodeLast: (state, getters) => {
-    return getters.selectedEpisodeIndex === 0;
+    return getters.playingEpisodeIndex === 0;
   },
   isSelectedEpisodePlaying: (state) => {
     if (!state.playingEpisode) return false;

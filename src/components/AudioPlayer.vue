@@ -3,7 +3,6 @@
     <span>{{ playerTitle }}</span>
     <audio-player
       ref="audioPlayer"
-      :key="key"
       :audio-list="audioList.map((elm) => elm.url)"
       :theme-color="themeColor"
       :show-prev-button="showPrevBtn"
@@ -59,6 +58,7 @@ export default {
   },
   watch: {
     audioList() {
+      console.log("audio list change");
       this.key += 1;
     },
   },
