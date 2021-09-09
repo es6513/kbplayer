@@ -6,8 +6,14 @@
           :imageUrl="selectedEpisode.itunes.image"
           :title="selectedEpisode.title"
         />
-        <div class="episode-play" @click="togglePlayPodcast">
-          {{ isPlaying ? "Pause" : "Play" }}
+        <div
+          class="episode-play"
+          @click="
+            handleSetPlayingEpisode();
+            handleTogglePlayingState();
+          "
+        >
+          {{ isSelectedEpisodePlaying ? "Pause" : "Play" }}
         </div>
       </div>
       <div class="episode-body">
@@ -39,10 +45,6 @@ import SummaryHeader from "@/components/SummaryHeader";
 
 export default {
   name: "Episode",
-  beforeRouteEnter(to, from, next) {
-    // ...
-    next();
-  },
   data() {
     return {
       isPlaying: false,
@@ -56,12 +58,12 @@ export default {
   computed: {
     ...mapState("podcast", {
       selectedEpisode: (state) => state.selectedEpisode,
+      isEpisodePlaying: (state) => state.isEpisodePlaying,
     }),
     ...mapGetters("podcast", {
       episodes: "episodes",
       isSelectedEpisodeNull: "isSelectedEpisodeNull",
-      selectedEpisodeIndex: "selectedEpisodeIndex",
-      isSelectedEpisodeLast: "isSelectedEpisodeLast",
+      isSelectedEpisodePlaying: "isSelectedEpisodePlaying",
     }),
     childPlayer() {
       return this.$refs.playerComponent;
@@ -82,19 +84,30 @@ export default {
     },
   },
   methods: {
-    ...mapActions("podcast", ["selectEpisode"]),
-    handlePlayEnd() {
-      this.changeToNextEpisode();
-      if (this.isFirstTimeEnter) this.isFirstTimeEnter = false;
-    },
-    handlePlay() {
-      this.isPlaying = true;
-    },
-    handlePause() {
-      this.isPlaying = false;
-    },
+    ...mapActions("podcast", [
+      "selectEpisode",
+      "setPlayingEpisode",
+      "togglePlayingState",
+    ]),
+    // handlePlayEnd() {
+    //   this.changeToNextEpisode();
+    //   if (this.isFirstTimeEnter) this.isFirstTimeEnter = false;
+    // },
+    // handlePlay() {
+    //   this.isPlaying = true;
+    // },
+    // handlePause() {
+    //   this.isPlaying = false;
+    // },
     selectEpisodeByRouteParam(guid) {
       this.selectEpisode({ guid });
+    },
+    handleSetPlayingEpisode() {
+      const { guid } = this.selectedEpisode;
+      this.setPlayingEpisode({ guid });
+    },
+    handleTogglePlayingState() {
+      this.togglePlayingState();
     },
     togglePlayPodcast() {
       const isEpisodePlaying = this.audioPlayer.isPlaying;
@@ -104,13 +117,13 @@ export default {
         this.audioPlayer.play();
       }
     },
-    changeToNextEpisode() {
-      if (this.isSelectedEpisodeLast) return;
-      const nextEpisode = this.episodes[this.selectedEpisodeIndex - 1];
-      const { guid } = nextEpisode;
-      this.$router.push({ path: `/episode/${guid}` });
-      this.selectEpisode({ guid });
-    },
+    // changeToNextEpisode() {
+    //   if (this.isSelectedEpisodeLast) return;
+    //   const nextEpisode = this.episodes[this.selectedEpisodeIndex - 1];
+    //   const { guid } = nextEpisode;
+    //   this.$router.push({ path: `/episode/${guid}` });
+    //   this.selectEpisode({ guid });
+    // },
     initFlow() {
       if (!this.isDataExist) {
         alert("This Episode does not exist ! Will redirect to home page");
@@ -124,6 +137,9 @@ export default {
   },
   created() {
     this.initFlow();
+  },
+  mounted() {
+    console.log(this.selectedEpisode);
   },
 };
 </script>

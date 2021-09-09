@@ -9,6 +9,8 @@ const moduleName = "PODCAST";
 const state = {
   feedData: null,
   selectedEpisode: null,
+  playingEpisode: null,
+  isEpisodePlaying: false,
 };
 
 const actions = {
@@ -47,6 +49,16 @@ const actions = {
     );
     commit(PodcastMutations.SET_SELECTED_EPISODE, { selectedEpisode });
   },
+  setPlayingEpisode({ commit, state }, payload) {
+    const { guid } = payload;
+    const playingEpisode = state.feedData.items.find(
+      (episode) => episode.guid === guid
+    );
+    commit(PodcastMutations.SET_PLAYING_EPISODE, { playingEpisode });
+  },
+  togglePlayingState({ commit }) {
+    commit(PodcastMutations.TOGGLE_ISPLAYING_STATE);
+  },
 };
 
 const mutations = {
@@ -58,6 +70,13 @@ const mutations = {
     const { selectedEpisode } = payload;
     state.selectedEpisode = selectedEpisode;
   },
+  [PodcastMutations.SET_PLAYING_EPISODE](state, payload) {
+    const { playingEpisode } = payload;
+    state.playingEpisode = playingEpisode;
+  },
+  [PodcastMutations.TOGGLE_ISPLAYING_STATE](state) {
+    state.isEpisodePlaying = !state.isEpisodePlaying;
+  },
 };
 
 const getters = {
@@ -68,14 +87,20 @@ const getters = {
     return isLoading;
   },
   isSelectedEpisodeNull: (state) => state.selectedEpisode === null,
-  selectedEpisodeIndex: (state, getters) => {
-    const selectedEpisodeIndex = getters.episodes.findIndex(
-      (episode) => episode.guid === state.selectedEpisode.guid
+  playingEpisodeIndex: (state, getters) => {
+    const playingEpisodeIndex = getters.episodes.findIndex(
+      (episode) => episode.guid === state.playingEpisode.guid
     );
-    return selectedEpisodeIndex;
+    return playingEpisodeIndex;
   },
-  isSelectedEpisodeLast: (state, getters) => {
+  isPlayingEpisodeLast: (state, getters) => {
     return getters.selectedEpisodeIndex === 0;
+  },
+  isSelectedEpisodePlaying: (state) => {
+    if (!state.playingEpisode) return false;
+    const { guid: selectedEpisodeId } = state.selectedEpisode;
+    const { guid: playingEpisodeId } = state.playingEpisode;
+    return selectedEpisodeId === playingEpisodeId;
   },
 };
 

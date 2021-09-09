@@ -4,18 +4,18 @@
     <template v-if="!isGlobalLoading">
       <header-bar />
       <router-view />
-      <div v-if="selectedEpisode" class="episode-player">
+      <div v-if="playingEpisode" class="episode-player">
         <player
           class="episode-player-controll"
           ref="playerComponent"
-          :playerTitle="selectedEpisode.title"
+          :playerTitle="playingEpisode.title"
           :audioList="audioList"
           :eventCallback="{
             handlePlay,
             handlePause,
             handlePlayEnd,
           }"
-          :isLoop="!isSelectedEpisodeLast"
+          :isLoop="!isPlayingEpisodeLast"
         />
       </div>
     </template>
@@ -38,13 +38,20 @@ export default {
   computed: {
     ...mapState("podcast", {
       selectedEpisode: (state) => state.selectedEpisode,
+      playingEpisode: (state) => state.playingEpisode,
     }),
     ...mapGetters("system", {
       isGlobalLoading: "isLoading",
     }),
     ...mapGetters("podcast", {
-      isSelectedEpisodeLast: "isSelectedEpisodeLast",
+      isPlayingEpisodeLast: "isPlayingEpisodeLast",
     }),
+    childPlayer() {
+      return this.$refs.playerComponent;
+    },
+    audioPlayer() {
+      return this.childPlayer.$refs.audioPlayer;
+    },
     audioList() {
       const audioSource = this.selectedEpisode.enclosure.url;
       return [{ url: audioSource }];
