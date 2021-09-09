@@ -57,6 +57,7 @@ export default {
       return [{ url: audioSource }];
     },
   },
+
   methods: {
     handlePlayEnd() {
       this.changeToNextEpisode();
