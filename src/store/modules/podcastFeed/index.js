@@ -56,10 +56,6 @@ const actions = {
     );
     commit(PodcastMutations.SET_PLAYING_EPISODE, { playingEpisode });
   },
-  setPlayingState({ commit }, payload) {
-    const { isAudioPlaying } = payload;
-    commit(PodcastMutations.SET_ISPLAYING_STATE, { isAudioPlaying });
-  },
 };
 
 const mutations = {
@@ -74,11 +70,6 @@ const mutations = {
   [PodcastMutations.SET_PLAYING_EPISODE](state, payload) {
     const { playingEpisode } = payload;
     state.playingEpisode = playingEpisode;
-  },
-  [PodcastMutations.SET_ISPLAYING_STATE](state, payload) {
-    const { isAudioPlaying } = payload;
-    console.log("mutation:", payload);
-    state.isAudioPlaying = isAudioPlaying;
   },
 };
 

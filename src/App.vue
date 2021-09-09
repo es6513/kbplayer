@@ -4,16 +4,12 @@
     <template v-if="!isGlobalLoading">
       <header-bar />
       <router-view />
-
-      <div v-if="!isPlayingEpisodeNull" class="episode-player">
+      <div v-if="!isPlayingEpisodeNull" class="audio-player">
         <player
-          class="episode-player-controll"
           ref="playerComponent"
           :playerTitle="playingEpisode.title"
           :audioList="audioList"
           :eventCallback="{
-            handlePlay,
-            handlePause,
             handlePlayEnd,
           }"
           :isLoop="!isPlayingEpisodeLast"
@@ -63,37 +59,18 @@ export default {
     },
   },
   watch: {
-    isAudioPlaying(value) {
-      console.log(value);
-      if (this.$refs.playerComponent) {
-        if (value === true) this.audioPlayer.play();
-        else this.audioPlayer.pause();
-      } else {
-        this.$nextTick(() => {
-          if (value === true) this.audioPlayer.play();
-          else this.audioPlayer.pause();
-        });
-      }
+    playingEpisode() {
+      this.$nextTick(() => {
+        this.audioPlayer.play();
+      });
     },
   },
   methods: {
-    ...mapActions("podcast", ["setPlayingState", "setPlayingEpisode"]),
+    ...mapActions("podcast", ["setPlayingEpisode"]),
     handlePlayEnd() {
       this.changeToNextEpisode();
     },
-    handlePlay() {
-      console.log("ererer");
-      this.handleSetPlayingState({ isAudioPlaying: true });
-    },
-    handlePause() {
-      this.handleSetPlayingState({ isAudioPlaying: false });
-    },
-    handleSetPlayingState(payload) {
-      console.log("payload:", payload);
-      this.setPlayingState(payload);
-    },
     changeToNextEpisode() {
-      console.log(this.isPlayingEpisodeLast);
       if (this.isPlayingEpisodeLast) return;
       const nextEpisode = this.episodes[this.playingEpisodeIndex - 1];
       const { guid } = nextEpisode;
@@ -103,4 +80,16 @@ export default {
 };
 </script>
 
-<style lang="scss"></style>
+<style lang="scss" scoped>
+@import "@/scss/variable.scss";
+
+.audio-player {
+  width: 100%;
+  background-color: $deep-green;
+  padding: $base-element-space;
+  position: fixed;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+}
+</style>

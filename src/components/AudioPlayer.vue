@@ -9,8 +9,6 @@
       :show-next-button="showNextBtn"
       :show-playback-rate="showPlaybackRate"
       :isLoop="isLoop"
-      @pause="eventCallback.handlePause"
-      @play="eventCallback.handlePlay"
       @ended="eventCallback.handlePlayEnd"
     />
   </div>
@@ -56,22 +54,15 @@ export default {
       },
     },
   },
-  watch: {
-    audioList() {
-      console.log("audio list change");
-      this.key += 1;
-    },
-  },
-  data() {
-    return {
-      key: 1,
-    };
-  },
   components: {
     AudioPlayer,
   },
+  watch: {
+    audioList() {
+      console.log(this.$refs.audioPlayer.currentTime);
+    },
+  },
   updated() {
-    console.log(this.$refs.audioPlayer.isPlaying);
     console.log("updated audio");
   },
 };

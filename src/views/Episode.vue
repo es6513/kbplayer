@@ -6,9 +6,7 @@
           :imageUrl="selectedEpisode.itunes.image"
           :title="selectedEpisode.title"
         />
-        <div class="episode-play" @click="handleSetPlayingEpisode">
-          {{ playBtnWord }}
-        </div>
+        <div class="episode-play" @click="handleSetPlayingEpisode">Play</div>
       </div>
       <div class="episode-body">
         <div class="episode-body-title">Episode Description</div>
@@ -27,7 +25,6 @@ export default {
   data() {
     return {
       isPlaying: false,
-      isFirstTimeEnter: true,
     };
   },
   components: {
@@ -36,7 +33,6 @@ export default {
   computed: {
     ...mapState("podcast", {
       selectedEpisode: (state) => state.selectedEpisode,
-      isAudioPlaying: (state) => state.isAudioPlaying,
     }),
     ...mapGetters("podcast", {
       episodes: "episodes",
@@ -54,40 +50,16 @@ export default {
       const audioSource = this.selectedEpisode.enclosure.url;
       return [{ url: audioSource }];
     },
-    playBtnWord() {
-      return this.isSelectedEpisodePlaying
-        ? this.isAudioPlaying
-          ? "Pasue"
-          : "Play"
-        : "Play";
-    },
   },
   methods: {
-    ...mapActions("podcast", [
-      "selectEpisode",
-      "setPlayingEpisode",
-      "setPlayingState",
-    ]),
+    ...mapActions("podcast", ["selectEpisode", "setPlayingEpisode"]),
     selectEpisodeByRouteParam(guid) {
       this.selectEpisode({ guid });
     },
     handleSetPlayingEpisode() {
-      if (this.isSelectedEpisodePlaying) {
-        if (this.isAudioPlaying) {
-          console.log("hererere");
-          this.handleSetPlayingState({ isAudioPlaying: false });
-        } else this.handleSetPlayingState({ isAudioPlaying: true });
-      } else {
-        this.handleSetPlayingState({ isAudioPlaying: true });
-      }
-
       if (this.isSelectedEpisodePlaying) return;
       const { guid } = this.selectedEpisode;
       this.setPlayingEpisode({ guid });
-    },
-    handleSetPlayingState(payload) {
-      console.log("payload:", payload);
-      this.setPlayingState(payload);
     },
     initFlow() {
       if (!this.isDataExist) {
@@ -103,13 +75,10 @@ export default {
   created() {
     this.initFlow();
   },
-  mounted() {
-    console.log(this.selectedEpisode);
-  },
 };
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 @import "@/scss/variable.scss";
 
 .episode {
