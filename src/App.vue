@@ -22,6 +22,7 @@
 <script>
 import HeaderBar from "@/components/Header";
 import LoadingOverlay from "@/components/LoadingOverlay";
+import Player from "@/components/AudioPlayer";
 import { mapActions, mapState, mapGetters } from "vuex";
 
 export default {
@@ -29,7 +30,7 @@ export default {
   components: {
     HeaderBar,
     LoadingOverlay,
-    Player: () => import("@/components/AudioPlayer"),
+    Player,
   },
   computed: {
     ...mapState("podcast", {
@@ -46,12 +47,12 @@ export default {
       isPlayingEpisodeLast: "isPlayingEpisodeLast",
       playingEpisodeIndex: "playingEpisodeIndex",
     }),
-    childPlayer() {
-      return this.$refs.playerComponent;
-    },
-    audioPlayer() {
-      return this.childPlayer.$refs.audioPlayer;
-    },
+    // childPlayer() {
+    //   return this.$refs.playerComponent;
+    // },
+    // audioPlayer() {
+    //   return this.childPlayer.$refs.audioPlayer;
+    // },
     audioList() {
       const audioSource = this.playingEpisode.enclosure.url;
       return [{ url: audioSource }];
@@ -60,7 +61,7 @@ export default {
   watch: {
     playingEpisode() {
       this.$nextTick(() => {
-        this.audioPlayer.play();
+        this.$refs.playerComponent.$refs.audioPlayer.play();
       });
     },
   },
