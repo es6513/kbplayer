@@ -23,14 +23,13 @@
 import HeaderBar from "@/components/Header";
 import LoadingOverlay from "@/components/LoadingOverlay";
 import { mapActions, mapState, mapGetters } from "vuex";
-import Player from "@/components/AudioPlayer";
 
 export default {
   name: "App",
   components: {
     HeaderBar,
     LoadingOverlay,
-    Player,
+    Player: () => import("@/components/AudioPlayer"),
   },
   computed: {
     ...mapState("podcast", {
