@@ -10,7 +10,7 @@ const state = {
   feedData: null,
   selectedEpisode: null,
   playingEpisode: null,
-  isEpisodePlaying: false,
+  isAudioPlaying: false,
 };
 
 const actions = {
@@ -56,8 +56,9 @@ const actions = {
     );
     commit(PodcastMutations.SET_PLAYING_EPISODE, { playingEpisode });
   },
-  togglePlayingState({ commit }) {
-    commit(PodcastMutations.TOGGLE_ISPLAYING_STATE);
+  setPlayingState({ commit }, payload) {
+    const { isAudioPlaying } = payload;
+    commit(PodcastMutations.SET_ISPLAYING_STATE, { isAudioPlaying });
   },
 };
 
@@ -74,8 +75,10 @@ const mutations = {
     const { playingEpisode } = payload;
     state.playingEpisode = playingEpisode;
   },
-  [PodcastMutations.TOGGLE_ISPLAYING_STATE](state) {
-    state.isEpisodePlaying = !state.isEpisodePlaying;
+  [PodcastMutations.SET_ISPLAYING_STATE](state, payload) {
+    const { isAudioPlaying } = payload;
+    console.log("mutation:", payload);
+    state.isAudioPlaying = isAudioPlaying;
   },
 };
 
@@ -87,6 +90,7 @@ const getters = {
     return isLoading;
   },
   isSelectedEpisodeNull: (state) => state.selectedEpisode === null,
+  isPlayingEpisodeNull: (state) => state.playingEpisode === null,
   playingEpisodeIndex: (state, getters) => {
     const playingEpisodeIndex = getters.episodes.findIndex(
       (episode) => episode.guid === state.playingEpisode.guid

@@ -6,14 +6,8 @@
           :imageUrl="selectedEpisode.itunes.image"
           :title="selectedEpisode.title"
         />
-        <div
-          class="episode-play"
-          @click="
-            handleSetPlayingEpisode();
-            handleTogglePlayingState();
-          "
-        >
-          {{ isSelectedEpisodePlaying ? "Pause" : "Play" }}
+        <div class="episode-play" @click="handleSetPlayingEpisode">
+          {{ playBtnWord }}
         </div>
       </div>
       <div class="episode-body">
@@ -21,27 +15,12 @@
         <div class="episode-body-desc">{{ selectedEpisode.content }}</div>
       </div>
     </div>
-    <!-- <div class="episode-player">
-      <player
-        class="episode-player-controll"
-        ref="playerComponent"
-        :playerTitle="selectedEpisode.title"
-        :audioList="audioList"
-        :eventCallback="{
-          handlePlay,
-          handlePause,
-          handlePlayEnd,
-        }"
-        :isLoop="!isSelectedEpisodeLast"
-      />
-    </div> -->
   </div>
 </template>
 
 <script>
 import { mapActions, mapState, mapGetters } from "vuex";
 import SummaryHeader from "@/components/SummaryHeader";
-// import Player from "@/components/AudioPlayer";
 
 export default {
   name: "Episode",
@@ -53,24 +32,17 @@ export default {
   },
   components: {
     SummaryHeader,
-    // Player,
   },
   computed: {
     ...mapState("podcast", {
       selectedEpisode: (state) => state.selectedEpisode,
-      isEpisodePlaying: (state) => state.isEpisodePlaying,
+      isAudioPlaying: (state) => state.isAudioPlaying,
     }),
     ...mapGetters("podcast", {
       episodes: "episodes",
       isSelectedEpisodeNull: "isSelectedEpisodeNull",
       isSelectedEpisodePlaying: "isSelectedEpisodePlaying",
     }),
-    childPlayer() {
-      return this.$refs.playerComponent;
-    },
-    audioPlayer() {
-      return this.childPlayer.$refs.audioPlayer;
-    },
     isDataExist() {
       const episodeId = this.$route.params.id;
       const isDataExistById = this.episodes.find(
@@ -82,48 +54,41 @@ export default {
       const audioSource = this.selectedEpisode.enclosure.url;
       return [{ url: audioSource }];
     },
+    playBtnWord() {
+      return this.isSelectedEpisodePlaying
+        ? this.isAudioPlaying
+          ? "Pasue"
+          : "Play"
+        : "Play";
+    },
   },
   methods: {
     ...mapActions("podcast", [
       "selectEpisode",
       "setPlayingEpisode",
-      "togglePlayingState",
+      "setPlayingState",
     ]),
-    // handlePlayEnd() {
-    //   this.changeToNextEpisode();
-    //   if (this.isFirstTimeEnter) this.isFirstTimeEnter = false;
-    // },
-    // handlePlay() {
-    //   this.isPlaying = true;
-    // },
-    // handlePause() {
-    //   this.isPlaying = false;
-    // },
     selectEpisodeByRouteParam(guid) {
       this.selectEpisode({ guid });
     },
     handleSetPlayingEpisode() {
+      if (this.isSelectedEpisodePlaying) {
+        if (this.isAudioPlaying) {
+          console.log("hererere");
+          this.handleSetPlayingState({ isAudioPlaying: false });
+        } else this.handleSetPlayingState({ isAudioPlaying: true });
+      } else {
+        this.handleSetPlayingState({ isAudioPlaying: true });
+      }
+
+      if (this.isSelectedEpisodePlaying) return;
       const { guid } = this.selectedEpisode;
       this.setPlayingEpisode({ guid });
     },
-    handleTogglePlayingState() {
-      this.togglePlayingState();
+    handleSetPlayingState(payload) {
+      console.log("payload:", payload);
+      this.setPlayingState(payload);
     },
-    togglePlayPodcast() {
-      const isEpisodePlaying = this.audioPlayer.isPlaying;
-      if (isEpisodePlaying) {
-        this.audioPlayer.pause();
-      } else {
-        this.audioPlayer.play();
-      }
-    },
-    // changeToNextEpisode() {
-    //   if (this.isSelectedEpisodeLast) return;
-    //   const nextEpisode = this.episodes[this.selectedEpisodeIndex - 1];
-    //   const { guid } = nextEpisode;
-    //   this.$router.push({ path: `/episode/${guid}` });
-    //   this.selectEpisode({ guid });
-    // },
     initFlow() {
       if (!this.isDataExist) {
         alert("This Episode does not exist ! Will redirect to home page");

@@ -4,7 +4,8 @@
     <template v-if="!isGlobalLoading">
       <header-bar />
       <router-view />
-      <div v-if="playingEpisode" class="episode-player">
+
+      <div v-if="!isPlayingEpisodeNull" class="episode-player">
         <player
           class="episode-player-controll"
           ref="playerComponent"
@@ -25,7 +26,7 @@
 <script>
 import HeaderBar from "@/components/Header";
 import LoadingOverlay from "@/components/LoadingOverlay";
-import { mapState, mapGetters } from "vuex";
+import { mapActions, mapState, mapGetters } from "vuex";
 import Player from "@/components/AudioPlayer";
 
 export default {
@@ -39,11 +40,13 @@ export default {
     ...mapState("podcast", {
       selectedEpisode: (state) => state.selectedEpisode,
       playingEpisode: (state) => state.playingEpisode,
+      isAudioPlaying: (state) => state.isAudioPlaying,
     }),
     ...mapGetters("system", {
       isGlobalLoading: "isLoading",
     }),
     ...mapGetters("podcast", {
+      isPlayingEpisodeNull: "isPlayingEpisodeNull",
       isPlayingEpisodeLast: "isPlayingEpisodeLast",
     }),
     childPlayer() {
@@ -53,21 +56,40 @@ export default {
       return this.childPlayer.$refs.audioPlayer;
     },
     audioList() {
-      const audioSource = this.selectedEpisode.enclosure.url;
+      const audioSource = this.playingEpisode.enclosure.url;
       return [{ url: audioSource }];
     },
   },
-
+  watch: {
+    isAudioPlaying(value) {
+      console.log(value);
+      if (this.$refs.playerComponent) {
+        if (value === true) this.audioPlayer.play();
+        else this.audioPlayer.pause();
+      } else {
+        this.$nextTick(() => {
+          if (value === true) this.audioPlayer.play();
+          else this.audioPlayer.pause();
+        });
+      }
+    },
+  },
   methods: {
+    ...mapActions("podcast", ["setPlayingState"]),
     handlePlayEnd() {
       this.changeToNextEpisode();
       if (this.isFirstTimeEnter) this.isFirstTimeEnter = false;
     },
     handlePlay() {
-      this.isPlaying = true;
+      console.log("ererer");
+      this.handleSetPlayingState({ isAudioPlaying: true });
     },
     handlePause() {
-      this.isPlaying = false;
+      this.handleSetPlayingState({ isAudioPlaying: false });
+    },
+    handleSetPlayingState(payload) {
+      console.log("payload:", payload);
+      this.setPlayingState(payload);
     },
   },
 };

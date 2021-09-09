@@ -1,9 +1,9 @@
 <template>
   <div class="audio-player">
     <span>{{ playerTitle }}</span>
-
     <audio-player
       ref="audioPlayer"
+      :key="key"
       :audio-list="audioList.map((elm) => elm.url)"
       :theme-color="themeColor"
       :show-prev-button="showPrevBtn"
@@ -57,8 +57,22 @@ export default {
       },
     },
   },
+  watch: {
+    audioList() {
+      this.key += 1;
+    },
+  },
+  data() {
+    return {
+      key: 1,
+    };
+  },
   components: {
     AudioPlayer,
+  },
+  updated() {
+    console.log(this.$refs.audioPlayer.isPlaying);
+    console.log("updated audio");
   },
 };
 </script>
