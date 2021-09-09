@@ -47,12 +47,12 @@ export default {
       isPlayingEpisodeLast: "isPlayingEpisodeLast",
       playingEpisodeIndex: "playingEpisodeIndex",
     }),
-    // childPlayer() {
-    //   return this.$refs.playerComponent;
-    // },
-    // audioPlayer() {
-    //   return this.childPlayer.$refs.audioPlayer;
-    // },
+    childPlayer() {
+      return this.$refs.playerComponent;
+    },
+    audioPlayer() {
+      return this.childPlayer.$refs.audioPlayer;
+    },
     audioList() {
       const audioSource = this.playingEpisode.enclosure.url;
       return [{ url: audioSource }];
