@@ -57,14 +57,6 @@ export default {
   components: {
     AudioPlayer,
   },
-  watch: {
-    audioList() {
-      console.log(this.$refs.audioPlayer.currentTime);
-    },
-  },
-  updated() {
-    console.log("updated audio");
-  },
 };
 </script>
 <style lang="scss" scoped>
